@@ -5,10 +5,12 @@
 #include<vector>
 #include<set>
 using namespace std;
+
 /* 아이디어
 기존배열 정렬 후 1회 탐색하며 my_rank 조절
 뭐야 왜 0<=n<=p 로 되어있지 이럼 -1 나오는 경우가 n==p 이고 꼴찌랑 점수 같을 때 밖에 없는데
 */
+
 int main(){
     ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
