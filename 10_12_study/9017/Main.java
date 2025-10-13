@@ -40,6 +40,7 @@ public class Test9017 {
                     score.put(num, score.getOrDefault(num, 0) + rank++);
                 }
             }
+
             List<Integer> duplicationRank = new ArrayList<>();
             int min = Integer.MAX_VALUE;
             for (Map.Entry<Integer, Integer> entry : score.entrySet()) {  // Rank가 가장 작은 값을 찾음
