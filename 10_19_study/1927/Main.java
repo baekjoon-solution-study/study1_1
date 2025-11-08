@@ -3,7 +3,7 @@ import java.util.*;
 
 /**
  * 구현방법 까먹어서 거의 보면서함.
- * 이거 출력에 문제가 있는지 로직은 맞는데 자꾸 틀리다함 ㅅㅂ
+ * push 를 잘못 구현해서 며칠동안 버렸다가 해결함
  */
 
 public class Main {
@@ -26,23 +26,19 @@ public class Main {
                 sb.append(pop()).append("\n");
             }
         }
-        if (sb.isEmpty() == false) {
-            sb.deleteCharAt(sb.length() - 1);
-        }
         bw.write(sb.toString());
         bw.flush();
     }
     public static void push(int value) {
         heap.add(value);
-        int parent = (heap.size() - 1) / 2;
         int child = heap.size() - 1;
-        while (parent >= 0) {
+        while (child > 0) {
+            int parent = (child - 1) / 2;
             if (heap.get(child) < heap.get(parent)) {
                 int temp = heap.get(child);
                 heap.set(child, heap.get(parent));
                 heap.set(parent, temp);
                 child = parent;
-                parent = (child - 1) / 2;
             }
             else break;
         }
