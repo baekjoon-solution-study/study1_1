@@ -2,64 +2,54 @@ import java.io.*;
 import java.util.*;
 
 /**
- * ㅈㄴ어려움.
- * AI에게 힌트얻고 4, 5시간동안 겨우 품
- * DP에 대해 좀 알게됨
- * 복습 해야할 듯
+ * DP ㅈㄴ어렵다. 5시간 걸림.
+ * 2차원 배열로 계단 하나 당 상태를 여러개 저장해야함.
+ * 다시 풀어볼 것
  */
 
 public class Main {
-
-    static int[][] arr;
-    static int[][] level;
-    static boolean[][] visited;
+    static int[][] stair;
+    static int[] arr;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
 
-        arr = new int[N][M];
-        level = new int[N][M];
-        visited = new boolean[N][M];
+        int N = Integer.parseInt(br.readLine());
+        arr = new int[N + 1];
+        stair = new int[N + 1][2];
 
-        for (int i = 0; i < N; i++) {
-            String line = br.readLine();
-            for (int j = 0; j < M; j++) {
-                arr[i][j] = line.charAt(j) - '0';
-            }
+        for (int i = 1; i < N + 1; i++) {
+            arr[i] = Integer.parseInt(br.readLine());
         }
-        System.out.println(bfs(N, M));
 
 
-    }
-    static int bfs(int max_x, int max_y) {
-        int[][] move = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        Queue<int[]> queue = new LinkedList<>();
-        int[] start = {0, 0};
-        queue.add(start);
-        level[0][0] = 1;
-        while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            if (visited[current[0]][current[1]]) continue;
-            visited[current[0]][current[1]] = true;
-            if (current[0] == max_x - 1 && current[1] == max_y - 1) break;
+        if (N > 1) {
 
-            for (int[] i : move) {
-                int x = current[0] + i[0];
-                int y = current[1] + i[1];
-                if (0 <= x && x < max_x && 0 <= y && y < max_y) {
-                    if (arr[x][y] == 1) {
-                        queue.add(new int[]{x, y});
-                        level[x][y] = level[current[0]][current[1]] + 1;
-                    }
+            stair[1][0] = arr[1];  // 0번 인덱스 = -1 에서 온 것
+            stair[1][1] = 0;  // 1번 인덱스 = jump 한 것
+            stair[2][0] = stair[1][0] + arr[2];
+            stair[2][1] = stair[1][1] + arr[2];  // 1 2 3 4 5
+            // 1,1  3,2  4,5  7,8
+
+            for (int i = 3; i < N + 1; i++) {
+                int first = stair[i - 2][0] + arr[i];
+                int second = stair[i - 2][1] + arr[i];
+                int third = stair[i - 1][1] + arr[i];
+
+                if (first > second) {
+                    stair[i][1] = first;
                 }
+                else {
+                    stair[i][1] = second;
+                }
+                stair[i][0] = third;
             }
-        }
-        return level[max_x - 1][max_y - 1];
 
+            System.out.println(Math.max(stair[N][0], stair[N][1]));
+        }
+        else System.out.println(arr[N]);
     }
+
 }
